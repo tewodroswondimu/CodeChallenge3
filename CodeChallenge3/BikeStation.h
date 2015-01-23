@@ -17,7 +17,6 @@
 @property NSString *statusValue;
 @property NSString *stAddress1;
 @property NSString *city;
-@property NSString *location;
 @property NSString *landMark;
 
 @property int availableDocks;
@@ -28,8 +27,12 @@
 @property float latitude;
 @property float longitude;
 
+@property float distanceFromCurrentLocation;
+
+@property CLLocation *location;
+
 @property CLLocationCoordinate2D coordinate;
 
-- (instancetype)initWithStationName:(NSString *)stationName statusValue:(NSString *)statusValue streetAddress:(NSString *)stAddress1 city:(NSString *)city location:(NSString *)location landMark:(NSString *)landMark availableDocs:(int)availableDocks totalDocks:(int)totalDocks latitude:(float)latitude longitude:(float)longitude statusKey:(int)statusKey availableBikes:(int)availableBikes;
+- (instancetype)initWithStationName:(NSString *)stationName statusValue:(NSString *)statusValue streetAddress:(NSString *)stAddress1 city:(NSString *)city landMark:(NSString *)landMark availableDocs:(int)availableDocks totalDocks:(int)totalDocks latitude:(float)latitude longitude:(float)longitude statusKey:(int)statusKey availableBikes:(int)availableBikes;
 
 @end

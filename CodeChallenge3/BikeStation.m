@@ -10,7 +10,7 @@
 
 @implementation BikeStation
 
-- (instancetype)initWithStationName:(NSString *)stationName statusValue:(NSString *)statusValue streetAddress:(NSString *)stAddress1 city:(NSString *)city location:(NSString *)location landMark:(NSString *)landMark availableDocs:(int)availableDocks totalDocks:(int)totalDocks latitude:(float)latitude longitude:(float)longitude statusKey:(int)statusKey availableBikes:(int)availableBikes
+- (instancetype)initWithStationName:(NSString *)stationName statusValue:(NSString *)statusValue streetAddress:(NSString *)stAddress1 city:(NSString *)city landMark:(NSString *)landMark availableDocs:(int)availableDocks totalDocks:(int)totalDocks latitude:(float)latitude longitude:(float)longitude statusKey:(int)statusKey availableBikes:(int)availableBikes;
 {
     self = [super init];
     if (self) {
@@ -18,7 +18,6 @@
         self.statusValue = statusValue;
         self.stAddress1 = stAddress1;
         self.city = city;
-        self.location = location;
         self.landMark = landMark;
         self.availableDocks = availableDocks;
         self.totalDocks = totalDocks;
@@ -28,6 +27,8 @@
         self.availableBikes = availableBikes;
 
         self.coordinate = CLLocationCoordinate2DMake(self.latitude, self.longitude);
+
+        self.location = [[CLLocation alloc] initWithLatitude:self.latitude longitude:self.longitude];    
     }
     return self;
 }

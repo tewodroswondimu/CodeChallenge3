@@ -47,7 +47,6 @@
     [self.mapView addAnnotation:self.currentAnnotation];
 }
 
-
 #pragma mark SETUP
 
 // Scale Map to region
@@ -86,6 +85,8 @@ calloutAccessoryControlTapped:(UIControl *)control
     [self getDirectionsToWithCoordinate:self.bikeStation.coordinate];
 }
 
+#pragma mark ALERTVIEW
+
 - (void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
@@ -94,6 +95,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     [alert show];
 }
 
+#pragma mark DIRECTIONS
 
 - (void)getDirectionsToWithCoordinate:(CLLocationCoordinate2D)coordinate
 {

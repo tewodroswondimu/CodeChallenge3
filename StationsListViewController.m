@@ -35,7 +35,6 @@
     self.myLocationManager.delegate = self;
 
     self.currentLocation = [CLLocation new];
-    [self.myLocationManager startUpdatingLocation];
 
     NSString *url = @"http://www.bayareabikeshare.com/stations/json";
     [self getBikeStationsFromJSONURLString:url];
@@ -64,7 +63,6 @@
                                                                     statusValue:resultBikeStationDictionary[@"statusValue"]
                                                                   streetAddress:resultBikeStationDictionary[@"stAddress1"]
                                                                            city:resultBikeStationDictionary[@"city"]
-                                                                       location:resultBikeStationDictionary[@"location"]
                                                                        landMark:resultBikeStationDictionary[@"landMark"]
                                                                   availableDocs:[resultBikeStationDictionary[@"availableDocks"] intValue]
                                                                      totalDocks:[resultBikeStationDictionary[@"totalDocks"] intValue]
@@ -74,6 +72,7 @@
                                                                  availableBikes:[resultBikeStationDictionary[@"availableBikes"] intValue]
                                         ];
             [self.bikeStations addObject:bikeStation];
+            [self.myLocationManager startUpdatingLocation];
             [self.tableView reloadData];
         }
     }];
@@ -91,8 +90,12 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     BikeStation *bikeStation = [self.bikeStations objectAtIndex:indexPath.row];
     cell.textLabel.text = bikeStation.stationName;
-    cell.detailTextLabel.text = bikeStation.stAddress1;
+
     cell.imageView.image = [UIImage imageNamed:@"bikeImage"];
+    cell.detailTextLabel.text = bikeStation.stAddress1;
+
+//    Check if they are ordered by distance
+//    cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f", bikeStation.distanceFromCurrentLocation];
     return cell;
 }
 
@@ -107,13 +110,38 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     self.currentLocation = locations.lastObject;
+    NSLog(@"%@", self.currentLocation);
     if (self.currentLocation != nil)
     {
-        if (self.currentLocation.verticalAccuracy < 100 && self.currentLocation.horizontalAccuracy < 100)
+        if (self.currentLocation.verticalAccuracy < 1000 && self.currentLocation.horizontalAccuracy < 1000)
         {
+            for (BikeStation *bikeStation in self.bikeStations) {
+                bikeStation.distanceFromCurrentLocation = [bikeStation.location distanceFromLocation:self.currentLocation];
+                [self.tableView reloadData];
+            }
+            [self reorderBikeStationByDistance];
             [self.myLocationManager stopUpdatingLocation];
         }
     }
+}
+
+- (void)reorderBikeStationByDistance
+{
+    // Sort all the pizzerias by their distance from the current user's location
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"distanceFromCurrentLocation" ascending:true];
+    NSArray *sortedArray = [self.bikeStations sortedArrayUsingDescriptors:@[sortDescriptor]];
+
+    // reset the pizzerias array and fill in with the sorted array
+    [self.bikeStations removeAllObjects];
+    self.bikeStations = [NSMutableArray arrayWithArray:sortedArray];
+}
+
+#pragma mark search delegate methods
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    NSLog(@"%@", searchBar.text);
+
 }
 
 #pragma mark - Prepare for Segue
