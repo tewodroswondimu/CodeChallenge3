@@ -26,6 +26,8 @@
         self.longitude = longitude;
         self.statusKey = statusKey;
         self.availableBikes = availableBikes;
+
+        self.coordinate = CLLocationCoordinate2DMake(self.latitude, self.longitude);
     }
     return self;
 }

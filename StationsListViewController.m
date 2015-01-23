@@ -10,10 +10,13 @@
 #import "MapViewController.h"
 #import "BikeStation.h"
 
-@interface StationsListViewController () <UITabBarDelegate, UITableViewDataSource, UISearchBarDelegate>
+@interface StationsListViewController () <UITabBarDelegate, UITableViewDataSource, UISearchBarDelegate, CLLocationManagerDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
+
+@property CLLocationManager *myLocationManager;
+@property CLLocation *currentLocation;
 
 @property NSMutableArray *bikeStations;
 
@@ -25,6 +28,14 @@
     [super viewDidLoad];
     self.bikeStations = [NSMutableArray new];
     self.searchBar.delegate = self;
+
+    // Set up LocationManager object
+    self.myLocationManager = [CLLocationManager new];
+    [self.myLocationManager requestAlwaysAuthorization];
+    self.myLocationManager.delegate = self;
+
+    self.currentLocation = [CLLocation new];
+    [self.myLocationManager startUpdatingLocation];
 
     NSString *url = @"http://www.bayareabikeshare.com/stations/json";
     [self getBikeStationsFromJSONURLString:url];
@@ -68,7 +79,7 @@
     }];
 }
 
-#pragma mark - UITableView
+#pragma mark - UITableViewDelegate methods
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -85,6 +96,26 @@
     return cell;
 }
 
+#pragma mark - CLLocationManagerDelegate methods
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    NSLog(@"%@", error);
+}
+
+#pragma mark - Location Manager
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    self.currentLocation = locations.lastObject;
+    if (self.currentLocation != nil)
+    {
+        if (self.currentLocation.verticalAccuracy < 100 && self.currentLocation.horizontalAccuracy < 100)
+        {
+            [self.myLocationManager stopUpdatingLocation];
+        }
+    }
+}
+
 #pragma mark - Prepare for Segue
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -92,6 +123,7 @@
     MapViewController *mvc = segue.destinationViewController;
     NSIndexPath *indexPath = self.tableView.indexPathForSelectedRow;
     mvc.bikeStation = [self.bikeStations objectAtIndex:indexPath.row];
+    mvc.currentLocation = self.currentLocation;
 }
 
 @end

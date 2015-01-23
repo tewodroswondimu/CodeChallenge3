@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		188FC6361A72D0C00056DE08 /* BikeStationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FC6351A72D0C00056DE08 /* BikeStationAnnotation.m */; };
 		18CCDEFB1A72B9E300EAB213 /* BikeStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CCDEFA1A72B9E300EAB213 /* BikeStation.m */; };
 		938C35E919F02E16000F4F50 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 938C35E819F02E16000F4F50 /* main.m */; };
 		938C35EC19F02E16000F4F50 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 938C35EB19F02E16000F4F50 /* AppDelegate.m */; };
@@ -30,6 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		188FC6341A72D0C00056DE08 /* BikeStationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BikeStationAnnotation.h; sourceTree = "<group>"; };
+		188FC6351A72D0C00056DE08 /* BikeStationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BikeStationAnnotation.m; sourceTree = "<group>"; };
 		18CCDEF91A72B9E300EAB213 /* BikeStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BikeStation.h; sourceTree = "<group>"; };
 		18CCDEFA1A72B9E300EAB213 /* BikeStation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BikeStation.m; sourceTree = "<group>"; };
 		938C35E319F02E16000F4F50 /* CodeChallenge3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeChallenge3.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +101,8 @@
 				18CCDEFA1A72B9E300EAB213 /* BikeStation.m */,
 				938C360F19F02F6E000F4F50 /* MapViewController.h */,
 				938C361019F02F6E000F4F50 /* MapViewController.m */,
+				188FC6341A72D0C00056DE08 /* BikeStationAnnotation.h */,
+				188FC6351A72D0C00056DE08 /* BikeStationAnnotation.m */,
 				938C35EA19F02E16000F4F50 /* AppDelegate.h */,
 				938C35F019F02E16000F4F50 /* Main.storyboard */,
 				938C35F319F02E16000F4F50 /* Images.xcassets */,
@@ -237,6 +242,7 @@
 				938C35EC19F02E16000F4F50 /* AppDelegate.m in Sources */,
 				18CCDEFB1A72B9E300EAB213 /* BikeStation.m in Sources */,
 				938C35E919F02E16000F4F50 /* main.m in Sources */,
+				188FC6361A72D0C00056DE08 /* BikeStationAnnotation.m in Sources */,
 				938C361119F02F6E000F4F50 /* MapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

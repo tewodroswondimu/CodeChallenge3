@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 #import "BikeStation.h"
 
 @interface MapViewController : UIViewController
 
-@property BikeStation *bikeStation; 
+@property BikeStation *bikeStation;
+@property CLLocation *currentLocation;
 
 @end

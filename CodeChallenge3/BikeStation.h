@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
 @interface BikeStation : NSObject
 
@@ -26,6 +27,8 @@
 
 @property float latitude;
 @property float longitude;
+
+@property CLLocationCoordinate2D coordinate;
 
 - (instancetype)initWithStationName:(NSString *)stationName statusValue:(NSString *)statusValue streetAddress:(NSString *)stAddress1 city:(NSString *)city location:(NSString *)location landMark:(NSString *)landMark availableDocs:(int)availableDocks totalDocks:(int)totalDocks latitude:(float)latitude longitude:(float)longitude statusKey:(int)statusKey availableBikes:(int)availableBikes;
 
