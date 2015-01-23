@@ -125,6 +125,7 @@
     }
 }
 
+// Sorted array by distance
 - (void)reorderBikeStationByDistance
 {
     // Sort all the pizzerias by their distance from the current user's location
@@ -141,7 +142,11 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     NSLog(@"%@", searchBar.text);
-
+//    for (BikeStation *bikeStation in self.bikeStations) {
+//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"$@ contains %@", bikeStation.stationName, searchBar.text];
+//        NSArray *temporaryArray = [self.bikeStations filteredArrayUsingPredicate:predicate];
+//        
+    }
 }
 
 #pragma mark - Prepare for Segue
