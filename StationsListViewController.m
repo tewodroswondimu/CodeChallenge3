@@ -19,6 +19,7 @@
 @property CLLocation *currentLocation;
 
 @property NSMutableArray *bikeStations;
+@property NSMutableArray *searchedBikeStations;
 
 @end
 
@@ -82,20 +83,40 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.bikeStations.count;
+    long count;
+    if (self.searchBar.text.length == 0)
+    {
+        count = self.bikeStations.count;
+    }
+    else
+    {
+        count = self.searchedBikeStations.count;
+    }
+    return count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    BikeStation *bikeStation = [self.bikeStations objectAtIndex:indexPath.row];
-    cell.textLabel.text = bikeStation.stationName;
+    BikeStation *bikeStation = [BikeStation new];
+    if (self.searchBar.text.length == 0) {
+        bikeStation = [self.bikeStations objectAtIndex:indexPath.row];
+        cell.textLabel.text = bikeStation.stationName;
 
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"There are %i available bike", bikeStation.availableBikes];
+    }
+    else
+    {
+        bikeStation = [self.searchedBikeStations objectAtIndex:indexPath.row];
+        if (bikeStation != nil) {
+            cell.textLabel.text = bikeStation.stationName;
+
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"There are %i available bike", bikeStation.availableBikes];
+        }
+    }
+    cell.detailTextLabel.numberOfLines = 2;
     cell.imageView.image = [UIImage imageNamed:@"bikeImage"];
-    cell.detailTextLabel.text = bikeStation.stAddress1;
 
-//    Check if they are ordered by distance
-//    cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f", bikeStation.distanceFromCurrentLocation];
     return cell;
 }
 
@@ -141,12 +162,12 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    NSLog(@"%@", searchBar.text);
-//    for (BikeStation *bikeStation in self.bikeStations) {
-//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"$@ contains %@", bikeStation.stationName, searchBar.text];
-//        NSArray *temporaryArray = [self.bikeStations filteredArrayUsingPredicate:predicate];
-//        
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.stationName contains[c] %@", searchBar.text];
+    NSMutableArray *tempArray = [NSMutableArray arrayWithArray:[self.bikeStations filteredArrayUsingPredicate:predicate]];
+    if (tempArray.count != 0) {
+        self.searchedBikeStations = tempArray;
     }
+    [self.tableView reloadData];
 }
 
 #pragma mark - Prepare for Segue
@@ -155,7 +176,15 @@
 {
     MapViewController *mvc = segue.destinationViewController;
     NSIndexPath *indexPath = self.tableView.indexPathForSelectedRow;
-    mvc.bikeStation = [self.bikeStations objectAtIndex:indexPath.row];
+
+    if (self.searchBar.text.length == 0)
+    {
+        mvc.bikeStation = [self.bikeStations objectAtIndex:indexPath.row];
+    }
+    else
+    {
+        mvc.bikeStation = [self.searchedBikeStations objectAtIndex:indexPath.row];
+    }
     mvc.currentLocation = self.currentLocation;
 }
 
